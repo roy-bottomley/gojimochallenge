@@ -1,0 +1,29 @@
+.addSpacer{'ng-controller'=>"qualificationController"}
+  .top-section
+    %h1 Gojimo Challenge
+    %p
+      by
+      = link_to "Roy Bottomley", 'http://www.roy.bottomley.com'
+      ( roy.bottomley@virginmedia.com )
+    %p Data last checked on: {{checkAt}}
+    %p Data last updated on: {{updateAt}}
+    %button.button{'ng-click'=>'getData(true)', 'title'=> "Check the server and update data if it has changed"} Refresh Data
+    %flash
+    %br
+    %button.button{'ng-click'=>'deleteData()', 'title'=> "Remove local data from this computer"} Delete Local Data
+
+  .bottom-section
+    .qualification-section
+      %h2 Qualifications
+      Sort by:
+      %input{'type' => 'radio', 'ng-model'=>'sortKey', 'value'=>'name'} Name
+      %input{'type' => 'radio', 'ng-model'=>'sortKey', 'value'=>'country'} Country
+      %ul.qualification-list{'ng-repeat' => "qualification in qualifications | orderBy:sortKey"}
+        %li.qualification-menu-item{'ng-click' => 'setSelectedQualification(qualification)'}  {{qualification.nameWithCountry}}
+
+    .subject-section.addSpacer
+      %h2 Subjects For
+      %h3 {{selectedQualification.name}}
+      %p {{selectedQualification.subjectMsg}}
+      %ul.subject-list{'ng-repeat' => "subject in selectedQualification.subjects | orderBy:'title'"}
+        %li.subject-list-item{'ng-style' => '{background: subject.colour}'}  {{subject.title}}
